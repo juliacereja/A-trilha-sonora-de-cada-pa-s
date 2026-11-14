@@ -475,12 +475,20 @@
       container.append(el("div", { class: "player" }, alvo));
       alvos.push({ alvo, m });
     });
+    // A API do Spotify cria o iframe com loading="lazy": como os players ficam
+    // mais abaixo na página, ele só carregaria depois da rolagem. Forçamos o
+    // carregamento imediato para a música poder tocar assim que se entra.
+    const ansioso = (n) => { if (n.tagName === "IFRAME" && n.getAttribute("loading") !== "eager") n.setAttribute("loading", "eager"); };
+    const vigia = new MutationObserver((ms) => ms.forEach((mu) => mu.type === "attributes" ? ansioso(mu.target) : mu.addedNodes.forEach((n) => { if (n.nodeType === 1) { ansioso(n); n.querySelectorAll?.("iframe").forEach(ansioso); } })));
+    vigia.observe(container, { childList: true, subtree: true, attributes: true, attributeFilter: ["loading"] });
+    setTimeout(() => vigia.disconnect(), 15000);
     alvos.forEach(({ alvo, m }, i) => {
       const criar = (api) => {
         if (token !== musica.token) return;
         api.createController(alvo, { uri: `spotify:track:${m.spotifyId.trim()}`, width: "100%", height: 152 }, (ctrl) => {
           if (token !== musica.token) { try { ctrl.destroy(); } catch (e) { /* ok */ } return; }
           musica.controles.push(ctrl);
+          if (ctrl.iframeElement) ansioso(ctrl.iframeElement);
           if (i === 0) {
             musica.principal = ctrl; musica.ativo = ctrl;
             ctrl.addListener("ready", () => { musica.pronto = true; if (musica.querTocar) ctrl.play(); });
@@ -509,7 +517,7 @@
       if (token !== musica.token || apiSpotify) return;
       alvos.forEach(({ alvo, m }) => alvo.replaceWith(el("iframe", {
         src: `https://open.spotify.com/embed/track/${encodeURIComponent(m.spotifyId.trim())}`,
-        title: `Player do Spotify: ${m.titulo}, ${m.artista}`, loading: "lazy",
+        title: `Player do Spotify: ${m.titulo}, ${m.artista}`, loading: "eager",
         allow: "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
       })));
       musica.botao?.remove();
