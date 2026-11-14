@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A trilha sonora de um país</title>
+  <meta name="description" content="País feliz ouve música feliz? Um passeio interativo pelo top 50 do Spotify de 70 países e pelo World Happiness Report 2026.">
+  <meta name="theme-color" content="#F7F5F0">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231D1D1F'/%3E%3Crect x='6' y='14' width='5' height='12' rx='1.5' fill='%23FF5A36'/%3E%3Crect x='13.5' y='8' width='5' height='18' rx='1.5' fill='%23FF5A36'/%3E%3Crect x='21' y='11' width='5' height='15' rx='1.5' fill='%23FF5A36'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topo">
+    <a class="marca" href="#jogo" aria-label="A trilha sonora de um país: início">
+      <span class="marca-eq" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="marca-nome">A trilha sonora de um país</span>
+    </a>
+    <nav class="menu" aria-label="Capítulos">
+      <ol id="menu-lista"></ol>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <section id="cap-jogo" class="capitulo" aria-labelledby="titulo-jogo" hidden></section>
+    <section id="cap-grupos" class="capitulo" aria-labelledby="titulo-grupos" hidden></section>
+    <section id="cap-mapa" class="capitulo" aria-labelledby="titulo-mapa" hidden></section>
+    <section id="cap-regiao" class="capitulo capitulo-regiao" aria-labelledby="titulo-regiao" hidden></section>
+    <section id="cap-resposta" class="capitulo" aria-labelledby="titulo-resposta" hidden></section>
+  </main>
+
+  <noscript><p style="padding:2rem">Este site precisa de JavaScript ativado para funcionar.</p></noscript>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
